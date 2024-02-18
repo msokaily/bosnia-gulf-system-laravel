@@ -1,0 +1,92 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Resources\UserResource;
+use App\Models\User as TableName;
+use Helper;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
+class UsersController extends Controller
+{
+    public function index(Request $request)
+    {
+        $data = TableName::query();
+        if ($request->input('role')) {
+            $data->whereIn('role', json_decode($request->role));
+        }
+        if ($request->input('search')) {
+            $data->where(function ($q) use ($request) {
+                $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('email', 'LIKE', '%' . $request->search . '%');
+            });
+        }
+        return $this->resJson(UserResource::collection($data->get()));
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'role' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->resJson([
+                'message' => 'Create user failed!',
+                'errors' => Helper::errorsFormat($validator->errors()->toArray())
+            ], false);
+        }
+        $data = $request->only(['name', 'email', 'password', 'role']);
+
+        $newUser = TableName::create($data);
+        $user = TableName::find($newUser->id);
+
+        return $this->resJson(new UserResource($user));
+    }
+
+    public function update($id, Request $request)
+    {
+        $user = TableName::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|string',
+            'email' => "sometimes|required|email|unique:users,email," . $user->id,
+            'password' => 'sometimes|string',
+            'role' => 'sometimes|string',
+            'status' => 'sometimes|in:0,1',
+        ]);
+        if ($validator->fails()) {
+            return $this->resJson([
+                'message' => 'Update user failed!',
+                'errors' => Helper::errorsFormat($validator->errors()->toArray())
+            ], false);
+        }
+        $data = $request->only(['name', 'email', 'password', 'role', 'status']);
+
+        $user->update($data);
+
+        return $this->resJson([
+            'message' => 'Updated successfully!'
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $user = TableName::findOrFail($id);
+        $user->delete();
+        return $this->resJson([
+            'message' => 'Deleted successfully!'
+        ]);
+    }
+
+    public function show($id)
+    {
+        return $this->resJson(new UserResource(TableName::find($id)));
+    }
+
+    public function profile(Request $request)
+    {
+        return $this->resJson(new UserResource($request->user()));
+    }
+}
