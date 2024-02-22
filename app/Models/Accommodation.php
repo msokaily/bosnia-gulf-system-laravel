@@ -20,6 +20,8 @@ class Accommodation extends Model
         'name',
         'partner_id',
         'type',
+        'cost',
+        'price',
         'address',
         'location',
         'image',

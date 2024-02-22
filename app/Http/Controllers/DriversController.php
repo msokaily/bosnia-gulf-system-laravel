@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\AccommodationResource as Res;
-use App\Models\Accommodation as TableName;
+use App\Http\Resources\DriverResource as Res;
+use App\Models\Driver as TableName;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class AccommodationsController extends Controller
+class DriversController extends Controller
 {
     public function index(Request $request)
     {
         $data = TableName::query();
-        if ($request->input('type')) {
-            $data->where('type', $request->type);
-        }
-        if ($request->input('partner_id')) {
-            $data->where('partner_id', $request->partner_id);
+        if ($request->input('status')) {
+            $data->where('status', $request->status);
         }
         if ($request->input('search')) {
             $data->where(function ($q) use ($request) {
-                $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('location', 'LIKE', '%' . $request->search . '%');
+                $q->where('name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('phone', 'LIKE', '%' . $request->search . '%');
             });
         }
         return $this->resJson(Res::collection($data->get()));
@@ -31,14 +29,8 @@ class AccommodationsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'partner_id' => 'sometimes',
-            'type' => 'required',
-            'cost' => 'sometimes',
-            'price' => 'required',
-            'address' => 'sometimes',
-            'location' => 'sometimes',
+            'phone' => 'sometimes',
             'status' => 'sometimes',
-            'image' => "sometimes|image|mimes:jpg,jpeg,bmp,png"
         ]);
         if ($validator->fails()) {
             return $this->resJson([
@@ -46,17 +38,7 @@ class AccommodationsController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only([
-            'name',
-            'partner_id',
-            'type',
-            'cost',
-            'price',
-            'address',
-            'location',
-            'image',
-            'status'
-        ]);
+        $data = $request->only(['name', 'phone', 'status']);
 
         $newRow = TableName::create($data);
 
@@ -72,15 +54,9 @@ class AccommodationsController extends Controller
             ], false);
         }
         $validator = Validator::make($request->all(), [
-            'name' => 'sometimes',
-            'partner_id' => 'sometimes',
-            'type' => 'sometimes',
-            'cost' => 'sometimes',
-            'price' => 'required',
-            'address' => 'sometimes',
-            'location' => 'sometimes',
+            'name' => 'required',
+            'phone' => 'sometimes',
             'status' => 'sometimes',
-            'image' => "sometimes|image|mimes:jpg,jpeg,bmp,png"
         ]);
         if ($validator->fails()) {
             return $this->resJson([
@@ -88,18 +64,7 @@ class AccommodationsController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only([
-            'name',
-            'ownership',
-            'partner_id',
-            'type',
-            'cost',
-            'price',
-            'address',
-            'location',
-            'image',
-            'status'
-        ]);
+        $data = $request->only(['name', 'phone', 'status']);
 
         $item->update($data);
 

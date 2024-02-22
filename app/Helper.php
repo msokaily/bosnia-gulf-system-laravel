@@ -26,9 +26,12 @@ class Helper
         if ($role == 'admin') {
             return [
                 "view" => [
+                    "home",
                     "cars",
+                    "car-companies",
                     "accommodations",
-                    "reservations",
+                    "orders",
+                    "partners",
                     "packages",
                     "stats",
                     "reports",
@@ -38,8 +41,10 @@ class Helper
                 ],
                 "create" => [
                     "cars",
+                    "car-companies",
                     "accommodations",
-                    "reservations",
+                    "orders",
+                    "partners",
                     "packages",
                     "stats",
                     "reports",
@@ -49,8 +54,10 @@ class Helper
                 ],
                 "update" => [
                     "cars",
+                    "car-companies",
                     "accommodations",
-                    "reservations",
+                    "orders",
+                    "partners",
                     "packages",
                     "stats",
                     "reports",
@@ -60,8 +67,10 @@ class Helper
                 ],
                 "delete" => [
                     "cars",
+                    "car-companies",
                     "accommodations",
-                    "reservations",
+                    "orders",
+                    "partners",
                     "packages",
                     "stats",
                     "reports",
@@ -73,21 +82,23 @@ class Helper
         } else if ($role == 'reserver') {
             return [
                 "view" => [
-                    "reservations",
+                    "home",
+                    "orders",
                 ],
                 "create" => [
-                    "reservations",
+                    "orders",
                 ],
                 "update" => [
-                    "reservations",
+                    "orders",
                 ],
                 "delete" => [
-                    "reservations",
+                    "orders",
                 ]
             ];
         } else if ($role == 'accountant') {
             return [
                 "view" => [
+                    "home",
                     "stats",
                     "reports",
                 ],
@@ -98,9 +109,10 @@ class Helper
         } else if ($role == 'monitor') {
             return [
                 "view" => [
+                    "home",
                     "cars",
                     "accommodations",
-                    "reservations",
+                    "orders",
                     "packages",
                     "stats",
                     "reports",

@@ -4,6 +4,7 @@ use App\Http\Controllers\AccommodationsController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\CarCompaniesController;
 use App\Http\Controllers\CarsController;
+use App\Http\Controllers\DriversController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PartnersController;
 use App\Http\Controllers\UsersController;
@@ -36,6 +37,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('cars', CarsController::class);
     Route::resource('car-companies', CarCompaniesController::class);
     Route::resource('partners', PartnersController::class);
+    Route::resource('drivers', DriversController::class);
     Route::resource('accommodations', AccommodationsController::class);
     Route::get('constants', [HomeController::class, 'constants']);
 });
