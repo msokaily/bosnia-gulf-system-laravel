@@ -62,4 +62,11 @@ class Car extends Model
         return $this->hasOne(CarCompanies::class, 'id','company');
     }
 
+    public function active_reservations()
+    {
+        return $this->hasMany(OrderProducts::class, 'item_id', 'id')->where('type', 'car')->whereHas('order', function($q) {
+            $q->whereIn('status', ['1']);
+        });
+    }
+
 }

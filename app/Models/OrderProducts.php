@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderProducts extends Model
 {
+
     /**
      * The attributes that are mass assignable.
      *
@@ -17,8 +18,11 @@ class OrderProducts extends Model
         'order_id',
         'start_at',
         'end_at',
+        'note',
+        'extra',
         'cost',
         'price',
+        'total',
     ];
 
     /**
@@ -35,10 +39,19 @@ class OrderProducts extends Model
         {
             return $this->belongsTo(Accommodation::class, 'item_id', 'id');
         }
+        elseif ($this->type == 'driver')
+        {
+            return $this->belongsTo(Driver::class, 'item_id', 'id');
+        }
         else
         {
             return $this->belongsTo(Car::class, 'item_id', 'id');
         }
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
     }
 
 }

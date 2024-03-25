@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\DriverResource as Res;
-use App\Models\Driver as TableName;
+use App\Http\Resources\OrderResource as Res;
+use App\Models\Order as TableName;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class DriversController extends Controller
+class OrdersController extends Controller
 {
     public function index(Request $request)
     {
         $data = TableName::query();
         if ($request->input('status')) {
-            $data->where('status', $request->status);
+            $data->whereIn('status', json_decode($request->status));
         }
         if ($request->input('search')) {
             $data->where(function ($q) use ($request) {
-                $q->where('name', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('phone', 'LIKE', '%' . $request->search . '%');
+                $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('id', 'LIKE', '%' . $request->search . '%')->orWhere('phone', 'LIKE', '%' . $request->search . '%');
             });
         }
         return $this->resJson(Res::collection($data->get()));
@@ -29,10 +28,6 @@ class DriversController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'phone' => 'sometimes',
-            'status' => 'sometimes',
-            'cost' => 'sometimes',
-            'price' => 'sometimes',
         ]);
         if ($validator->fails()) {
             return $this->resJson([
@@ -40,7 +35,14 @@ class DriversController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'phone', 'status', 'cost', 'price']);
+        $data = $request->only([
+            'name',
+            'phone',
+            'paid_at',
+            'cost',
+            'total',
+            'status'
+        ]);
 
         $newRow = TableName::create($data);
 
@@ -57,10 +59,6 @@ class DriversController extends Controller
         }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'phone' => 'sometimes',
-            'status' => 'sometimes',
-            'cost' => 'sometimes',
-            'price' => 'sometimes',
         ]);
         if ($validator->fails()) {
             return $this->resJson([
@@ -68,7 +66,14 @@ class DriversController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'phone', 'status', 'cost', 'price']);
+        $data = $request->only([
+            'name',
+            'phone',
+            'paid_at',
+            'cost',
+            'total',
+            'status'
+        ]);
 
         $item->update($data);
 

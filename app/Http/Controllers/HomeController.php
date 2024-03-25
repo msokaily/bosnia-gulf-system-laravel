@@ -31,6 +31,8 @@ class HomeController extends Controller
         return $this->resJson([
             'roles' => Helper::$roles,
             'partners_types' => Helper::$parnersTypes,
+            'product_types' => Helper::$productTypes,
+            'order_status' => Helper::$orderStatus,
         ]);
     }
 }

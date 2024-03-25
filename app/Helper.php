@@ -11,6 +11,33 @@ class Helper
         'cars',
         'accommodations',
     ];
+    public static $productTypes = [
+        'car',
+        'accommodation',
+        'driver',
+    ];
+    public static $orderStatus = [
+        0 => [
+            "ar" => "جديد",
+            "en" => "New",
+        ],
+        1 => [
+            "ar" => "تم التأكيد",
+            "en" => "Confirmed",
+        ],
+        2 => [
+            "ar" => "مكتمل",
+            "en" => "completed",
+        ],
+        3 => [
+            "ar" => "ملغي",
+            "en" => "Canceled",
+        ],
+        4 => [
+            "ar" => "تم إعادة الملبغ",
+            "en" => "Refunded",
+        ],
+    ];
 
     public static function errorsFormat($errors)
     {
@@ -124,4 +151,14 @@ class Helper
             ];
         }
     }
+
+    public static function orderStatusName($status)
+    {
+        try {
+            return self::$orderStatus[$status];
+        } catch (\Throwable $th) {
+            return self::$orderStatus[0];
+        }
+    }
+
 }

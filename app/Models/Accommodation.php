@@ -59,4 +59,11 @@ class Accommodation extends Model
             Storage::disk('public')->url($this->attributes['image']) : null;
     }
 
+    public function active_reservations()
+    {
+        return $this->hasMany(OrderProducts::class, 'item_id')->where('type', 'accommodation')->whereHas('order', function($q) {
+            $q->whereIn('status', [1]);
+        });
+    }
+
 }

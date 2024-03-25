@@ -19,6 +19,9 @@ class AccommodationsController extends Controller
         if ($request->input('partner_id')) {
             $data->where('partner_id', $request->partner_id);
         }
+        if ($request->input('status')) {
+            $data->where('status', $request->status);
+        }
         if ($request->input('search')) {
             $data->where(function ($q) use ($request) {
                 $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('location', 'LIKE', '%' . $request->search . '%');

@@ -16,6 +16,9 @@ class CarsController extends Controller
         if ($request->input('company')) {
             $data->whereIn('company', json_decode($request->company));
         }
+        if ($request->input('status')) {
+            $data->where('status', $request->status);
+        }
         if ($request->input('search')) {
             $data->where(function ($q) use ($request) {
                 $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('model', 'LIKE', '%' . $request->search . '%');
@@ -50,7 +53,7 @@ class CarsController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'model', 'company', 'register_no', 'register_start', 'register_end', 'owner', 'owner_id', 'cost', 'price', 'image']);
+        $data = $request->only(['name', 'model', 'company', 'register_no', 'register_start', 'register_end', 'owner', 'owner_id', 'cost', 'price', 'image', 'status']);
         
         $newRow = TableName::create($data);
 
@@ -86,7 +89,7 @@ class CarsController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'model', 'company', 'register_no', 'register_start', 'register_end', 'owner', 'owner_id', 'cost', 'price', 'image']);
+        $data = $request->only(['name', 'model', 'company', 'register_no', 'register_start', 'register_end', 'owner', 'owner_id', 'cost', 'price', 'image', 'status']);
         
         $item->update($data);
 

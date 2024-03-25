@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AccommodationResource extends JsonResource
+class OrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,16 +18,17 @@ class AccommodationResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'partner_id' => $this->partner_id,
-            'type' => $this->type,
-            'address' => $this->address,
-            'location' => $this->location,
+            'phone' => $this->phone,
             'status' => $this->status,
-            'image' => $this->image,
+            'status_name' => Helper::orderStatusName($this->status),
             'cost' => $this->cost,
             'price' => $this->price,
-            'active_reservations' => $this->active_reservations,
+            'total' => $this->total,
+            'products' => $this->products,
+            'payments' => $this->payments,
+            'paid_at' => $this->paid_at,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d h:i A') : null,
+            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d h:i A') : null,
         ];
     }
 }

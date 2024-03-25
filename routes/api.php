@@ -6,6 +6,8 @@ use App\Http\Controllers\CarCompaniesController;
 use App\Http\Controllers\CarsController;
 use App\Http\Controllers\DriversController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderProductsController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PartnersController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
@@ -39,5 +41,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('partners', PartnersController::class);
     Route::resource('drivers', DriversController::class);
     Route::resource('accommodations', AccommodationsController::class);
+    Route::resource('orders', OrdersController::class);
+    Route::resource('orderProducts', OrderProductsController::class);
+    Route::get('orders/{id}/products', [OrderProductsController::class, 'index']);
     Route::get('constants', [HomeController::class, 'constants']);
 });
