@@ -120,7 +120,7 @@ class OrderProductsController extends Controller
         $start_at = Carbon::parse($data['start_at']);
         $end_at = Carbon::parse($data['end_at']);
         $daysNum = $end_at->diffInDays($start_at) + 1;
-        $data['total'] = $product->price * $daysNum;
+        $data['total'] = $data['price'] * $daysNum;
 
         $item->update($data);
 
