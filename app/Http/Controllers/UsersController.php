@@ -54,7 +54,7 @@ class UsersController extends Controller
             'email' => "sometimes|required|email|unique:users,email," . $user->id,
             'password' => 'sometimes|string',
             'role' => 'sometimes|string',
-            'status' => 'sometimes|in:0,1',
+            'status' => 'sometimes|in:1,2',
         ]);
         if ($validator->fails()) {
             return $this->resJson([

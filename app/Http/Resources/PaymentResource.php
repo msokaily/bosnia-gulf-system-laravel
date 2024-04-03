@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AuthResource extends JsonResource
+class PaymentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,15 +14,15 @@ class AuthResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $token = $this->createToken('AppToken', Helper::permissions($this->role));
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'role' => $this->role,
+            'order_id' => $this->order_id,
+            'amount' => $this->amount,
+            'currency' => $this->currency,
+            'paid_at' => $this->paid_at,
+            'note' => $this->note,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d h:i A') : null,
-            'abilities' => Helper::permissions($this->role),
-            'accessToken' => $token->plainTextToken,
+            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d h:i A') : null,
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderProducts extends Model
@@ -52,6 +53,13 @@ class OrderProducts extends Model
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+    public function getDaysAttribute()
+    {
+        $start_at = Carbon::parse($this->start_at);
+        $end_at = Carbon::parse($this->end_at);
+        return $end_at->diffInDays($start_at) + 1;
     }
 
 }

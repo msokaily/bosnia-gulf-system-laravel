@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Payments extends Model
+class Repair extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,11 +12,8 @@ class Payments extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'order_id',
-        'amount',
-        'currency',
-        'note',
-        'paid_at'
+        'name',
+        'price',
     ];
 
     /**
@@ -24,12 +21,6 @@ class Payments extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'paid_at' => 'date'
-    ];
-
-    public function order() {
-        return $this->belongsTo(Order::class);
-    }
+    protected $casts = [];
 
 }

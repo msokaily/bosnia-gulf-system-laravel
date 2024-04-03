@@ -11,10 +11,19 @@ class Helper
         'cars',
         'accommodations',
     ];
+    public static $repairTypes = [
+        'car',
+        'accommodation',
+    ];
     public static $productTypes = [
         'car',
         'accommodation',
         'driver',
+    ];
+    public static $currencies = [
+        'BAM',
+        'EUR',
+        'USD',
     ];
     public static $orderStatus = [
         0 => [
@@ -65,6 +74,7 @@ class Helper
                     "users",
                     "admins",
                     "drivers",
+                    "repairs",
                 ],
                 "create" => [
                     "cars",
@@ -78,6 +88,7 @@ class Helper
                     "users",
                     "admins",
                     "drivers",
+                    "repairs",
                 ],
                 "update" => [
                     "cars",
@@ -91,6 +102,7 @@ class Helper
                     "users",
                     "admins",
                     "drivers",
+                    "repairs",
                 ],
                 "delete" => [
                     "cars",
@@ -104,6 +116,7 @@ class Helper
                     "users",
                     "admins",
                     "drivers",
+                    "repairs",
                 ]
             ];
         } else if ($role == 'reserver') {

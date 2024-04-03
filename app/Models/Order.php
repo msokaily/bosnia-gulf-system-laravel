@@ -62,14 +62,26 @@ class Order extends Model
         $cost = 0;
         $total = 0;
         foreach ($products as $key => $value) {
-            $price += $value->price;
-            $cost += $value->cost;
+            $price += $value->price * $value->days;
+            $cost += $value->cost * $value->days;
             $total += $value->total;
         }
         $this->price = $price;
         $this->cost = $cost;
         $this->total = $total;
         $this->save();
+    }
+
+    public function getOrderRevenueAttribute()
+    {
+        $products = $this->hasMany(OrderProducts::class)->get();
+        $cost = 0;
+        $total = 0;
+        foreach ($products as $key => $value) {
+            $cost += $value->cost * $value->days;
+            $total += $value->total;
+        }
+        return $total - $cost;
     }
 
 }

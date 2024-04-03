@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'role' => $this->role,
+            'status' => $this->status,
             'abilities' => Helper::permissions($this->role),
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d h:i A') : null,
         ];
