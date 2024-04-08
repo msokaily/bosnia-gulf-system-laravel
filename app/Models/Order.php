@@ -105,7 +105,7 @@ class Order extends Model
 
     public function getStatusNameAttribute()
     {
-        return Helper::$orderStatus[$this->status]['en'];
+        return Helper::$orderStatus[$this->status]['en'] ?? 'New';
     }
 
     public function getLogsAttribute()
