@@ -25,7 +25,7 @@ class Payments extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'paid_at' => 'date'
+        'paid_at' => 'date:Y-m-d'
     ];
 
     public function order() {

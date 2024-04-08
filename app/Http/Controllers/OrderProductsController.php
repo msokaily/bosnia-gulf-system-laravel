@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\OrderProductResource as Res;
 use App\Models\Accommodation;
+use App\Models\ActivitiesLog;
 use App\Models\Car;
 use App\Models\Driver;
 use App\Models\Order;
@@ -66,12 +67,34 @@ class OrderProductsController extends Controller
         $data['price'] = $request->input('price', 0) > 0 ? $request->price : $product->price;
         $start_at = Carbon::parse($data['start_at']);
         $end_at = Carbon::parse($data['end_at']);
-        $daysNum = $end_at->diffInDays($start_at) + 1;
+        $daysNum = $end_at->diffInDays($start_at);
         $data['total'] = $data['price'] * $daysNum;
 
         $newRow = TableName::create($data);
 
         Order::find($newRow->order_id)->calcTotals();
+
+        $item = TableName::find($newRow->id);
+        $data = [
+            'name' => $item->product->name,
+            'type' => $item->product->type ?? $item->type,
+            'price' => $item->price,
+            'start_at' => Carbon::parse($item->start_at)->format('Y-m-d'),
+            'end_at' => Carbon::parse($item->end_at)->format('Y-m-d'),
+            'note' => $item->note,
+        ];
+        if ($item->extra) {
+            $data['vehicle'] = $item->extraValue->name ?? null;
+        }
+
+        ActivitiesLog::create([
+            'user_id' => $request->user()->id,
+            'order_id' => $item->order_id,
+            'item_id' => $newRow->id,
+            'item_type' => TableName::class,
+            'data' => $data,
+            'type' => 'Add '.($item->product->type ?? $item->type),
+        ]);
 
         return $this->resJson(new Res($newRow));
     }
@@ -119,12 +142,46 @@ class OrderProductsController extends Controller
         $data['price'] = $request->input('price', 0) > 0 ? $request->price : $product->price;
         $start_at = Carbon::parse($data['start_at']);
         $end_at = Carbon::parse($data['end_at']);
-        $daysNum = $end_at->diffInDays($start_at) + 1;
+        $daysNum = $end_at->diffInDays($start_at);
         $data['total'] = $data['price'] * $daysNum;
 
+        $itemBeforeUpdate = TableName::find($id);
+        $itemBeforeUpdateData = [
+            'name' => $itemBeforeUpdate->product->name,
+            'type' => $itemBeforeUpdate->product->type,
+            'price' => $itemBeforeUpdate->price,
+            'start_at' => Carbon::parse($itemBeforeUpdate->start_at)->format('Y-m-d'),
+            'end_at' => Carbon::parse($itemBeforeUpdate->end_at)->format('Y-m-d'),
+            'note' => $itemBeforeUpdate->note,
+            'vehicle' => $itemBeforeUpdate->extra ? $itemBeforeUpdate->extraValue->name : null,
+        ];
+        
         $item->update($data);
-
         Order::find($item->order_id)->calcTotals();
+        
+        $itemAfterUpdate = TableName::find($id);
+        $itemAfterUpdateData = [
+            'name' => $itemAfterUpdate->product->name,
+            'type' => $itemAfterUpdate->product->type,
+            'price' => $itemAfterUpdate->price,
+            'start_at' => Carbon::parse($itemAfterUpdate->start_at)->format('Y-m-d'),
+            'end_at' => Carbon::parse($itemAfterUpdate->end_at)->format('Y-m-d'),
+            'note' => $itemAfterUpdate->note,
+            'vehicle' => $itemAfterUpdate->extra ? $itemAfterUpdate->extraValue->name : null,
+        ];
+
+        $itemUpdated = Helper::arrayDiffValues($itemAfterUpdateData, $itemBeforeUpdateData);
+
+        if (count($itemUpdated) > 0) {
+            ActivitiesLog::create([
+                'user_id' => $request->user()->id,
+                'order_id' => $item->order_id,
+                'item_id' => $item->id,
+                'item_type' => TableName::class,
+                'data' => $itemUpdated,
+                'type' => 'Update '.$item->product->type,
+            ]);
+        }
 
         return $this->resJson([
             'message' => 'Updated successfully!'

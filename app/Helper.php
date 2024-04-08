@@ -21,8 +21,8 @@ class Helper
         'driver',
     ];
     public static $currencies = [
-        'BAM',
         'EUR',
+        'BAM',
         'USD',
     ];
     public static $orderStatus = [
@@ -36,7 +36,7 @@ class Helper
         ],
         2 => [
             "ar" => "مكتمل",
-            "en" => "completed",
+            "en" => "Completed",
         ],
         3 => [
             "ar" => "ملغي",
@@ -150,6 +150,7 @@ class Helper
             return [
                 "view" => [
                     "home",
+                    "orders",
                     "cars",
                     "accommodations",
                     "orders",
@@ -159,7 +160,9 @@ class Helper
                     "drivers",
                 ],
                 "create" => [],
-                "update" => [],
+                "update" => [
+                    "orders",
+                ],
                 "delete" => []
             ];
         }
@@ -172,6 +175,13 @@ class Helper
         } catch (\Throwable $th) {
             return self::$orderStatus[0];
         }
+    }
+    
+    public static function arrayDiffValues($array1, $array2)
+    {
+        $result = array_diff($array1, $array2);
+
+        return $result;
     }
 
 }

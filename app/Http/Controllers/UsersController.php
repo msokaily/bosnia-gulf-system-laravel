@@ -64,6 +64,15 @@ class UsersController extends Controller
         }
         $data = $request->only(['name', 'email', 'password', 'role', 'status']);
 
+        $push_token = $request->input('push_token', null);
+        if ($push_token) {
+            $prevTokens = $user->push_token ?? [];
+            if (!in_array($push_token, $prevTokens)) {
+                $prevTokens[] = $push_token;
+                $data['push_token'] = $prevTokens;
+            }
+        }
+
         $user->update($data);
 
         return $this->resJson([

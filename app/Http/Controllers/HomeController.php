@@ -51,7 +51,8 @@ class HomeController extends Controller
         $currencies = Helper::$currencies;
         
         // Orders
-        $orders = Order::query()->whereYear('paid_at', $year)->whereMonth('paid_at', $month);
+        $dateFieldName = 'arrive_at';
+        $orders = Order::query()->whereIn('status', ['1', '2'])->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
         $data['orders'] = [
             'all' => [
                 'count' => (clone $orders)->count(),
@@ -94,22 +95,22 @@ class HomeController extends Controller
                 foreach ($currencies as $curr) {
                     $data['orders'][$key]['paid'][$curr] = Payments::query()
                     ->where('currency', $curr)
-                    ->whereHas('order', function($q) use ($value, $year, $month) {
+                    ->whereHas('order', function($q) use ($value, $year, $month, $dateFieldName) {
                         $q->where('status', $value['status']);
-                        $q->whereYear('paid_at', $year)->whereMonth('paid_at', $month);
+                        $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
                     })->sum('amount');
                 }
             } else {
                 foreach ($currencies as $curr) {
-                    $data['orders'][$key]['paid'][$curr] = Payments::query()->where('currency', $curr)->whereHas('order', function($q) use ($year, $month) {
-                        $q->whereYear('paid_at', $year)->whereMonth('paid_at', $month);
+                    $data['orders'][$key]['paid'][$curr] = Payments::query()->where('currency', $curr)->whereHas('order', function($q) use ($year, $month, $dateFieldName) {
+                        $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
                     })->sum('amount');
                 }
             }
         }
 
         // Cars Orders
-        $items_orders_query = OrderProducts::query()->where('type', 'car')->whereHas('order', function($q) use ($year, $month) { $q->whereYear('paid_at', $year)->whereMonth('paid_at', $month); });
+        $items_orders_query = OrderProducts::query()->where('type', 'car')->whereHas('order', function($q) use ($year, $month, $dateFieldName) { $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month); });
         $items_orders = [];
         foreach ($items_orders_query->get() as $value) {
             if (!isset($items_orders[$value->item_id])) {
@@ -129,7 +130,7 @@ class HomeController extends Controller
         $data['cars_orders'] = array_values($items_orders);
 
         // Accommodations Orders
-        $items_orders_query = OrderProducts::query()->where('type', 'accommodation')->whereHas('order', function($q) use ($year, $month) { $q->whereYear('paid_at', $year)->whereMonth('paid_at', $month); });
+        $items_orders_query = OrderProducts::query()->where('type', 'accommodation')->whereHas('order', function($q) use ($year, $month, $dateFieldName) { $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month); });
         $items_orders = [];
         foreach ($items_orders_query->get() as $value) {
             if (!isset($items_orders[$value->item_id])) {
@@ -149,7 +150,7 @@ class HomeController extends Controller
         $data['accommodations_orders'] = array_values($items_orders);
         
         // Drivers Orders
-        $items_orders_query = OrderProducts::query()->where('type', 'driver')->whereHas('order', function($q) use ($year, $month) { $q->whereYear('paid_at', $year)->whereMonth('paid_at', $month); });
+        $items_orders_query = OrderProducts::query()->where('type', 'driver')->whereHas('order', function($q) use ($year, $month, $dateFieldName) { $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month); });
         $items_orders = [];
         foreach ($items_orders_query->get() as $value) {
             if (!isset($items_orders[$value->item_id])) {

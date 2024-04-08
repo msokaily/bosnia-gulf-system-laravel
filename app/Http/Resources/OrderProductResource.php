@@ -14,18 +14,6 @@ class OrderProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $product = null;
-        switch ($this->type) {
-            case 'accommodation':
-                $product = new AccommodationResource($this->product);
-            break;
-            case 'driver':
-                $product = new DriverResource($this->product);
-            break;
-            default:
-                $product = new CarResource($this->product);
-            break;
-        }
         return [
             'id' => $this->id,
             'type' => $this->type,
@@ -37,8 +25,9 @@ class OrderProductResource extends JsonResource
             'cost' => $this->cost,
             'price' => $this->price,
             'total' => $this->total,
-            'product' => $product,
+            'product' => $this->product,
             'extra' => $this->extra,
+            'extra_value' => $this->extraValue,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d h:i A') : null,
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d h:i A') : null,
         ];

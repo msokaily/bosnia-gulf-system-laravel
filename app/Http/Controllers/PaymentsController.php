@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentResource as Res;
+use App\Models\ActivitiesLog;
 use App\Models\Payments as TableName;
+use Carbon\Carbon;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -46,6 +48,22 @@ class PaymentsController extends Controller
 
         $newRow = TableName::create($data);
 
+        $data = TableName::find($newRow->id, [
+            'amount',
+            'currency',
+            'paid_at',
+            'note'
+        ])->toArray();
+
+        ActivitiesLog::create([
+            'user_id' => $request->user()->id,
+            'order_id' => $newRow->order_id,
+            'item_id' => $newRow->id,
+            'item_type' => TableName::class,
+            'data' => $data,
+            'type' => 'Add Payment',
+        ]);
+
         return $this->resJson(new Res($newRow));
     }
 
@@ -74,8 +92,28 @@ class PaymentsController extends Controller
             'paid_at',
             'note',
         ]);
+        $data['paid_at'] = Carbon::parse($data['paid_at'])->format('Y-m-d');
 
+        $itemBeforeUpdate = TableName::where('id', $id)->select([
+            'amount',
+            'currency',
+            'paid_at',
+            'note',
+        ])->first()->toArray();
+        $newUpdates = Helper::arrayDiffValues($data, $itemBeforeUpdate);
+        
         $item->update($data);
+        
+        if (count($newUpdates) > 0) {
+            ActivitiesLog::create([
+                'user_id' => $request->user()->id,
+                'order_id' => $item->order_id,
+                'item_id' => $item->id,
+                'item_type' => TableName::class,
+                'data' => $newUpdates,
+                'type' => 'Update Payment',
+            ]);
+        }
 
         return $this->resJson([
             'message' => 'Updated successfully!'

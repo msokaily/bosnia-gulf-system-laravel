@@ -27,6 +27,12 @@ class AuthController extends Controller
         }
         $user = User::where('email', $request->email)->first();
 
+        if (!$user || $user->status != 1) {
+            return $this->resJson([
+                'message' => 'Your account has been suspended by the admin!'
+            ], false);
+        }
+
         if (!$user || !Hash::check($request->password, $user->password)) {
             return $this->resJson([
                 'message' => 'Incorrect email or password!'

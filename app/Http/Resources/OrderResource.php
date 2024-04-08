@@ -17,6 +17,7 @@ class OrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'name' => $this->name,
             'phone' => $this->phone,
             'status' => $this->status,
@@ -24,9 +25,13 @@ class OrderResource extends JsonResource
             'cost' => $this->cost,
             'price' => $this->price,
             'total' => $this->total,
-            'products' => $this->products,
+            'products' => OrderProductResource::collection($this->products),
             'payments' => $this->payments,
-            'paid_at' => $this->paid_at,
+            'arrive_at' => $this->arrive_at,
+            'leave_at' => $this->leave_at,
+            'arrive_time' => $this->arrive_time,
+            'airline' => $this->airline,
+            'logs' => $this->logs,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d h:i A') : null,
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d h:i A') : null,
         ];

@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Http\Resources\AccommodationResource;
+use App\Http\Resources\CarResource;
+use App\Http\Resources\DriverResource;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,20 +37,35 @@ class OrderProducts extends Model
     protected $casts = [
     ];
 
-    public function product()
+    public function getProductAttribute()
     {
-        if ($this->type == 'accommodation')
-        {
-            return $this->belongsTo(Accommodation::class, 'item_id', 'id');
+        switch ($this->type) {
+            case 'accommodation':
+                return new AccommodationResource($this->belongsTo(Accommodation::class, 'item_id', 'id')->first());
+            break;
+            case 'driver':
+                return new DriverResource($this->belongsTo(Driver::class, 'item_id', 'id')->first());
+            break;
+            default:
+                return new CarResource($this->belongsTo(Car::class, 'item_id', 'id')->first());
+            break;
         }
-        elseif ($this->type == 'driver')
-        {
-            return $this->belongsTo(Driver::class, 'item_id', 'id');
+    }
+
+    public function getExtraValueAttribute()
+    {
+        switch ($this->type) {
+            case 'accommodation':
+                // return new AccommodationResource($this->belongsTo(Accommodation::class, 'item_id', 'id')->first());
+            break;
+            case 'driver':
+                return new CarResource($this->belongsTo(Car::class, 'extra', 'id')->first());
+            break;
+            default:
+                // return new CarResource($this->belongsTo(Car::class, 'item_id', 'id')->first());
+            break;
         }
-        else
-        {
-            return $this->belongsTo(Car::class, 'item_id', 'id');
-        }
+        return null;
     }
 
     public function order()
@@ -59,7 +77,7 @@ class OrderProducts extends Model
     {
         $start_at = Carbon::parse($this->start_at);
         $end_at = Carbon::parse($this->end_at);
-        return $end_at->diffInDays($start_at) + 1;
+        return $end_at->diffInDays($start_at);
     }
 
 }

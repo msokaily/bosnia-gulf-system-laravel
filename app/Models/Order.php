@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Http\Resources\ActivityLogsResource;
+use Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -17,8 +19,12 @@ class Order extends Model
      */
     protected $fillable = [
         'name',
+        'user_id',
         'phone',
-        'paid_at',
+        'arrive_at',
+        'leave_at',
+        'arrive_time',
+        'airline',
         'status',
         'currency',
         'cost',
@@ -32,12 +38,25 @@ class Order extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'paid_at' => 'datetime'
     ];
+
+    /**
+     * The attributes that should be appended.
+     *
+     * @var array<string, string>
+     */
+    protected $appends = [
+        'status_name'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function products()
     {
-        return $this->hasMany(OrderProducts::class)->with('product');
+        return $this->hasMany(OrderProducts::class);
     }
 
     public function payments()
@@ -82,6 +101,21 @@ class Order extends Model
             $total += $value->total;
         }
         return $total - $cost;
+    }
+
+    public function getStatusNameAttribute()
+    {
+        return Helper::$orderStatus[$this->status]['en'];
+    }
+
+    public function getLogsAttribute()
+    {
+        return ActivityLogsResource::collection($this->hasMany(ActivitiesLog::class)->orderBy('created_at', 'DESC')->get());
+    }
+
+    public function getProductAttribute()
+    {
+        return null;
     }
 
 }
