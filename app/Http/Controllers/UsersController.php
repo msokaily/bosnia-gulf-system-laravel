@@ -98,4 +98,21 @@ class UsersController extends Controller
     {
         return $this->resJson(new UserResource($request->user()));
     }
+
+    public function logout(Request $request)
+    {
+        $push_token = $request->input('push_token', null);
+        if ($push_token) {
+            $push_tokens = $request->user()->push_token;
+            if (in_array($push_token, $push_tokens)) {
+                $index = array_search($push_token, $push_tokens);
+                array_splice($push_tokens, $index, 1);
+                $request->user()->update(['push_token' => $push_tokens]);
+            }
+        }
+        $request->user()->logout();
+        return $this->resJson([
+            'message' => 'Logged out successfully!'
+        ]);
+    }
 }

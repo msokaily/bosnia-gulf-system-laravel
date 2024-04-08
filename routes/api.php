@@ -38,6 +38,7 @@ Route::group(['namespace' => 'API'], function () {
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('users', UsersController::class);
     Route::get('/profile', [UsersController::class, 'profile']);
+    Route::get('/logout', [UsersController::class, 'logout']);
     Route::resource('cars', CarsController::class);
     Route::resource('car-companies', CarCompaniesController::class);
     Route::resource('repairs', RepairsController::class);
