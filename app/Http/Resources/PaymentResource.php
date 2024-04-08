@@ -21,6 +21,7 @@ class PaymentResource extends JsonResource
             'currency' => $this->currency,
             'paid_at' => $this->paid_at,
             'note' => $this->note,
+            'type' => $this->type,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d h:i A') : null,
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d h:i A') : null,
         ];

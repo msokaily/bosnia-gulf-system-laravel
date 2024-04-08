@@ -67,7 +67,7 @@ class UsersController extends Controller
         $push_token = $request->input('push_token', null);
         if ($push_token) {
             $prevTokens = $user->push_token ?? [];
-            if (!in_array($push_token, $prevTokens)) {
+            if (!in_array($push_token, $prevTokens) && $push_token != "undefined") {
                 $prevTokens[] = $push_token;
                 $data['push_token'] = $prevTokens;
             }

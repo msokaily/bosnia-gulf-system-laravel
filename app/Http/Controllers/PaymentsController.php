@@ -42,6 +42,7 @@ class PaymentsController extends Controller
             'currency',
             'paid_at',
             'note',
+            'type',
         ]);
 
         $data['paid_at'] = $request->input('paid_at', date('Y-m-d'));
@@ -52,7 +53,8 @@ class PaymentsController extends Controller
             'amount',
             'currency',
             'paid_at',
-            'note'
+            'note',
+            'type',
         ])->toArray();
 
         ActivitiesLog::create([
@@ -91,6 +93,7 @@ class PaymentsController extends Controller
             'currency',
             'paid_at',
             'note',
+            'type',
         ]);
         $data['paid_at'] = Carbon::parse($data['paid_at'])->format('Y-m-d');
 
@@ -99,6 +102,7 @@ class PaymentsController extends Controller
             'currency',
             'paid_at',
             'note',
+            'type',
         ])->first()->toArray();
         $newUpdates = Helper::arrayDiffValues($data, $itemBeforeUpdate);
         

@@ -64,6 +64,11 @@ class Order extends Model
         return $this->hasMany(Payments::class);
     }
 
+    public function getPaidEurAttribute()
+    {
+        return $this->hasMany(Payments::class)->where('currency', 'EUR')->sum('amount');
+    }
+
     public function accommodations()
     {
         return $this->hasMany(OrderProducts::class)->where('type', 'accommodation');

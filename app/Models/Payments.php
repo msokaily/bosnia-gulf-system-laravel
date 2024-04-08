@@ -16,6 +16,7 @@ class Payments extends Model
         'amount',
         'currency',
         'note',
+        'type',
         'paid_at'
     ];
 

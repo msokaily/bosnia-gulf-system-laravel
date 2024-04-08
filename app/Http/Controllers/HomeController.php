@@ -32,6 +32,17 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function print($id)
+    {
+        $order = Order::findOrFail($id);
+        $data['order'] = $order;
+        if ($order->payments && count($order->payments) > 0) {
+            $data['down_payment'] = $order->payments()->where('type', 'payment')->orderBy('created_at', 'ASC')->first()->amount;
+            $data['deposit'] = $order->payments()->where('type', 'deposit')->first()->amount ?? 0;
+        }
+        return view('print', $data);
+    }
+
     public function constants()
     {
         return $this->resJson([

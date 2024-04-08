@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\OrderResource as Res;
 use App\Models\ActivitiesLog;
 use App\Models\Order as TableName;
+use App\Models\User;
+use App\Services\Notifications;
 use Carbon\Carbon;
 use Helper;
 use Illuminate\Http\Request;
@@ -77,6 +79,8 @@ class OrdersController extends Controller
             'type' => 'Add Reservation',
         ]);
 
+        Notifications::sendOrderNotif($newRow->id, 'new');
+
         return $this->resJson(new Res($newRow));
     }
 
@@ -135,7 +139,9 @@ class OrdersController extends Controller
                 'data' => $newUpdates,
                 'type' => 'Update Reservation',
             ]);
+            Notifications::sendOrderNotif($item->id, 'new');
         }
+
 
         return $this->resJson([
             'message' => 'Updated successfully!'
