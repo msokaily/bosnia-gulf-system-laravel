@@ -110,7 +110,6 @@ class UsersController extends Controller
                 $request->user()->update(['push_token' => $push_tokens]);
             }
         }
-        $request->user()->logout();
         return $this->resJson([
             'message' => 'Logged out successfully!'
         ]);
