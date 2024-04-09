@@ -63,7 +63,7 @@ class HomeController extends Controller
         
         // Orders
         $dateFieldName = 'arrive_at';
-        $orders = Order::query()->whereIn('status', ['1', '2'])->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
+        $orders = Order::query()->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
         $data['orders'] = [
             'all' => [
                 'count' => (clone $orders)->count(),
@@ -121,7 +121,10 @@ class HomeController extends Controller
         }
 
         // Cars Orders
-        $items_orders_query = OrderProducts::query()->where('type', 'car')->whereHas('order', function($q) use ($year, $month, $dateFieldName) { $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month); });
+        $items_orders_query = OrderProducts::query()->where('type', 'car')->whereHas('order', function($q) use ($year, $month, $dateFieldName) {
+            $q->whereIn('status', ['1', '2']);
+            $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
+        });
         $items_orders = [];
         foreach ($items_orders_query->get() as $value) {
             if (!isset($items_orders[$value->item_id])) {
@@ -141,7 +144,10 @@ class HomeController extends Controller
         $data['cars_orders'] = array_values($items_orders);
 
         // Accommodations Orders
-        $items_orders_query = OrderProducts::query()->where('type', 'accommodation')->whereHas('order', function($q) use ($year, $month, $dateFieldName) { $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month); });
+        $items_orders_query = OrderProducts::query()->where('type', 'accommodation')->whereHas('order', function($q) use ($year, $month, $dateFieldName) {
+            $q->whereIn('status', ['1', '2']);
+            $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
+        });
         $items_orders = [];
         foreach ($items_orders_query->get() as $value) {
             if (!isset($items_orders[$value->item_id])) {
@@ -161,7 +167,10 @@ class HomeController extends Controller
         $data['accommodations_orders'] = array_values($items_orders);
         
         // Drivers Orders
-        $items_orders_query = OrderProducts::query()->where('type', 'driver')->whereHas('order', function($q) use ($year, $month, $dateFieldName) { $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month); });
+        $items_orders_query = OrderProducts::query()->where('type', 'driver')->whereHas('order', function($q) use ($year, $month, $dateFieldName) {
+            $q->whereIn('status', ['1', '2']);
+            $q->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
+        });
         $items_orders = [];
         foreach ($items_orders_query->get() as $value) {
             if (!isset($items_orders[$value->item_id])) {

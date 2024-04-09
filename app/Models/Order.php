@@ -79,6 +79,11 @@ class Order extends Model
         return $this->hasMany(OrderProducts::class)->where('type', 'car');
     }
 
+    public function drivers()
+    {
+        return $this->hasMany(OrderProducts::class)->where('type', 'driver');
+    }
+
     public function calcTotals()
     {
         $products = $this->hasMany(OrderProducts::class)->get();

@@ -15,12 +15,12 @@ class Notifications
     public static function sendOrderNotif($id, $type = 'new', $toRole = 'admin')
     {
         $order = Order::find($id);
+        if (!$order) return;
         $lastUpdate = ActivitiesLog::where(['order_id' => $order->id])->orderBy('created_at', 'DESC')->first();
 
         $heading = array(
             "en" => 'New Reservation',
         );
-
         $content = array(
             "en" => 'Reservation to ' . $order->name . ' (#' . $order->id . ') has been added by ' . ($lastUpdate ? $lastUpdate->user->name : ''),
         );

@@ -9,6 +9,7 @@ use App\Models\Car;
 use App\Models\Driver;
 use App\Models\Order;
 use App\Models\OrderProducts as TableName;
+use App\Services\Notifications;
 use Carbon\Carbon;
 use Helper;
 use Illuminate\Http\Request;
@@ -96,6 +97,8 @@ class OrderProductsController extends Controller
             'type' => 'Add '.($item->product->type ?? $item->type),
         ]);
 
+        Notifications::sendOrderNotif($item->order_id, 'update');
+
         return $this->resJson(new Res($newRow));
     }
 
@@ -179,8 +182,9 @@ class OrderProductsController extends Controller
                 'item_id' => $item->id,
                 'item_type' => TableName::class,
                 'data' => $itemUpdated,
-                'type' => 'Update '.$item->product->type,
+                'type' => 'Update '.($item->product->type ?? $item->type),
             ]);
+            Notifications::sendOrderNotif($item->order_id, 'update');
         }
 
         return $this->resJson([
@@ -188,12 +192,30 @@ class OrderProductsController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $item = TableName::findOrFail($id);
         $order_id = $item->order_id;
+        $data = [
+            'name' => $item->product->name,
+            'type' => $item->product->type ?? $item->type,
+            'start_at' => Carbon::parse($item->start_at)->format('Y-m-d'),
+            'end_at' => Carbon::parse($item->end_at)->format('Y-m-d'),
+        ];
+        if ($item->extra) {
+            $data['vehicle'] = $item->extraValue->name ?? null;
+        }
+        ActivitiesLog::create([
+            'user_id' => $request->user()->id,
+            'order_id' => $item->order_id,
+            'item_id' => $item->id,
+            'item_type' => TableName::class,
+            'data' => $data,
+            'type' => 'Delete '.($item->product->type ?? $item->type),
+        ]);
         $item->delete();
         Order::find($order_id)->calcTotals();
+        Notifications::sendOrderNotif($order_id, 'update');
         return $this->resJson([
             'message' => 'Deleted successfully!'
         ]);

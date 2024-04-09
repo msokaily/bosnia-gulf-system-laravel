@@ -2232,7 +2232,8 @@
     </style>
 </head>
 
-<body class="c4 doc-content">
+<body class="c4 doc-content" style="position: relative;">
+    <img src="{{asset('images/print-logo.png')}}" style="position: absolute; width: 400px; left:0; right:0; margin: auto; top: 50%; transform: translateY(-50%); opacity: 0.3;">
     <div>
         <p class="c19"><img><span class="c9">BOSNA U O&#268;IMA GULFA D.O.O.</span></p>
         <p class="c3"><span class="c9">UBERI AUTO &ndash; UBERI CAR D.O.O.</span></p>
@@ -2245,25 +2246,59 @@
     <p class="c5 c7 c8"><span class="c0"></span></p>
     <p class="c1 c7 c11"><span class="c0"></span></p>
     <p class="c1"><span class="c0">ACCOMMODATION RESERVATION: </span></p>
-    <ul class="c16 lst-kix_list_23-0 start">
-        <li class="c1 c11 c18 li-bullet-0"><span class="c0">/</span></li>
-    </ul>
-    <p class="c1"><span class="c0">CAR RESERVATION:</span></p>
-    <ul class="c16 lst-kix_list_25-0 start">
-        <li class="c5 c13"><span class="c0">&nbsp;/</span></li>
-    </ul>
-    <p class="c5 c7"><span class="c0"></span></p>
-    <p class="c5"><span class="c0">DRIVER RESERVATION:</span></p>
     <ul class="c16 lst-kix_list_25-0">
-        <li class="c1 c2 li-bullet-1"><span class="c0">/</span></li>
+        @foreach ($order->accommodations as $item)
+            <li class="c1 c2 li-bullet-1">
+                <span class="c0">{{$item->product->name}}</span>
+                <span class="c0" style="maring-inline-start: 20px;">
+                    (
+                        {{\Carbon\Carbon::parse($item->start_at)->format('Y-m-d')}} 
+                        &rarr;  
+                        {{\Carbon\Carbon::parse($item->end_at)->format('Y-m-d')}}
+                    )
+                </span>
+            </li>
+        @endforeach
+    </ul>
+    <p class="c1"><span class="c0"></span></p>
+    <p class="c1"><span class="c0">CAR RESERVATION:</span></p>
+    <ul class="c16 lst-kix_list_25-0">
+        @foreach ($order->cars as $item)
+            <li class="c1 c2 li-bullet-1">
+                <span class="c0">{{$item->product->name}}</span>
+                <span class="c0" style="maring-inline-start: 20px;">
+                    (
+                        {{\Carbon\Carbon::parse($item->start_at)->format('Y-m-d')}} 
+                        &rarr;  
+                        {{\Carbon\Carbon::parse($item->end_at)->format('Y-m-d')}}
+                    )
+                </span>
+            </li>
+        @endforeach
+    </ul>
+    <p class="c1"><span class="c0"></span></p>
+    <p class="c1"><span class="c0">DRIVER RESERVATION:</span></p>
+    <ul class="c16 lst-kix_list_25-0">
+        @foreach ($order->drivers as $item)
+            <li class="c1 c2 li-bullet-1">
+                <span class="c0">{{$item->product->name}}</span>
+                <span class="c0" style="maring-inline-start: 20px;">
+                    (
+                        {{\Carbon\Carbon::parse($item->start_at)->format('Y-m-d')}} 
+                        &rarr;  
+                        {{\Carbon\Carbon::parse($item->end_at)->format('Y-m-d')}}
+                    )
+                </span>
+            </li>
+        @endforeach
     </ul>
     <p class="c1 c7"><span class="c0"></span></p>
     <p class="c1 c7 c11"><span class="c0"></span></p>
     <p class="c1 c7 c11"><span class="c0"></span></p>
-    <p class="c1"><span class="c0">TOTAL PRICE = {{number_format($order->total, 2)}} &euro; </span></p>
+    <p class="c1"><span class="c0">TOTAL PRICE = {{number_format($order->total ?? 0, 2)}} &euro; </span></p>
     <p style="margin-block: 5px;"><span class="c0">DOWN PAYMENT = {{number_format($down_payment ?? 0, 2)}} &euro;</span></p>
-    <p style="margin-block: 5px;" class="c6"><span class="c0">DEPOSIT = 0,00 &euro; </span></p>
-    <p class="c1"><span class="c12 c15">PAYMENT IN CASH = {{number_format($order->paid_eur, 2)}} &euro; &nbsp;</span><span class="c12">&nbsp;</span></p>
+    <p style="margin-block: 5px;" class="c6"><span class="c0">DEPOSIT = {{number_format($deposit ?? 0, 2)}} &euro; </span></p>
+    <p class="c1"><span class="c12 c15">PAYMENT IN CASH = {{number_format($order->paid_eur ?? 0, 2)}} &euro; &nbsp;</span><span class="c12">&nbsp;</span></p>
     <p class="c1 c7"><span class="c9"></span></p>
     <p class="c1 c7"><span class="c9"></span></p>
     <p class="c1 c7"><span class="c9"></span></p>
@@ -2271,6 +2306,10 @@
     <div>
         <p class="c3"><span class="c9">WELCOME TO BOSNIA AND HERZEGOVINA</span></p>
     </div>
+    <script>
+        window.onafterprint = window.close;
+        window.print();
+    </script>
 </body>
 
 </html>
