@@ -16,6 +16,6 @@ class Controller extends BaseController
         return response()->json([
             'status' => $status,
             'data' => $data
-        ], $status ? Response::HTTP_OK : Response::HTTP_INTERNAL_SERVER_ERROR);
+        ], $status ? Response::HTTP_OK : Response::HTTP_INTERNAL_SERVER_ERROR, [], JSON_NUMERIC_CHECK);
     }
 }
