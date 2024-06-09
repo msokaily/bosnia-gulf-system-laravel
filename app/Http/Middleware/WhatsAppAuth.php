@@ -16,6 +16,6 @@ class WhatsAppAuth extends Middleware
                 'message' => 'Unauthrozed'
             ], 401);
         }
-        return parent::handle($request, $next, ...$guards);
+        return $next($request);
     }
 }
