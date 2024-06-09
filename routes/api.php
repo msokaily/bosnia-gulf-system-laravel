@@ -38,7 +38,7 @@ Route::group(['namespace' => 'API'], function () {
 
     // WhatsApp Messeges
     Route::group(['middleware' => 'WhatsAppAuth'], function() {
-        Route::post('whatsapp_callback', [ApiController::class, 'whatsapp_callback']);
+        Route::get('whatsapp_callback', [ApiController::class, 'whatsapp_callback']);
     });
 });
 Route::group(['middleware' => 'auth:sanctum'], function() {
