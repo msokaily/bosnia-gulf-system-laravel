@@ -9,7 +9,7 @@ class ApiController extends Controller
 {
     public function whatsapp_callback(Request $request)
     {
-
-        return $this->resJson(['ok' => true]);
+        return $request->input('hub_challenge');
+        // return $this->resJson(['ok' => true]);
     }
 }
