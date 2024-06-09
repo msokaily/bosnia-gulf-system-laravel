@@ -53,3 +53,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('constants', [HomeController::class, 'constants']);
     Route::get('stats', [HomeController::class, 'stats']);
 });
+
+// WhatsApp Messeges
+Route::group(['middleware' => 'WhatsAppAuth'], function() {
+    Route::post('whatsapp_callback', [HomeController::class, 'whatsapp_callback']);
+});
