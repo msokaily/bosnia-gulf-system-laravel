@@ -34,6 +34,11 @@ header('Access-Control-Allow-Methods: GET,POST,PUT,DELETE,OPTIONS');
 Route::group(['namespace' => 'API'], function () {
     // Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+    
+    // WhatsApp Messeges
+    Route::group(['middleware' => 'WhatsAppAuth'], function() {
+        Route::post('whatsapp_callback', [HomeController::class, 'whatsapp_callback']);
+    });
 });
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('users', UsersController::class);
@@ -52,9 +57,4 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('orders/{id}/payments', [PaymentsController::class, 'index']);
     Route::get('constants', [HomeController::class, 'constants']);
     Route::get('stats', [HomeController::class, 'stats']);
-});
-
-// WhatsApp Messeges
-Route::group(['middleware' => 'WhatsAppAuth'], function() {
-    Route::post('whatsapp_callback', [HomeController::class, 'whatsapp_callback']);
 });
