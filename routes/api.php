@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccommodationsController;
+use App\Http\Controllers\API\ApiController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\CarCompaniesController;
 use App\Http\Controllers\CarsController;
@@ -34,10 +35,10 @@ header('Access-Control-Allow-Methods: GET,POST,PUT,DELETE,OPTIONS');
 Route::group(['namespace' => 'API'], function () {
     // Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-    
+
     // WhatsApp Messeges
     Route::group(['middleware' => 'WhatsAppAuth'], function() {
-        Route::post('whatsapp_callback', [HomeController::class, 'whatsapp_callback']);
+        Route::post('whatsapp_callback', [ApiController::class, 'whatsapp_callback']);
     });
 });
 Route::group(['middleware' => 'auth:sanctum'], function() {
