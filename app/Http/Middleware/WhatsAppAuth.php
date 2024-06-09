@@ -9,7 +9,7 @@ class WhatsAppAuth extends Middleware
 {
     public function handle($request, Closure $next, ...$guards)
     {
-        if (!$request->is('api/*') || $request->input('hub_verify_token') != env('WHATSAPP_API_TOKEN'))
+        if ($request->input('hub_verify_token') != env('WHATSAPP_API_TOKEN'))
         {
             return response()->json([
                 'status' => false,
