@@ -16,7 +16,7 @@ class WhatsAppAuth extends Middleware
                 'message' => 'Unauthrozed'
             ], 401);
         }
-        dd('Else');
+        dd('Else: '.$request->input('hub_verify_token').' == '.env('WHATSAPP_API_TOKEN'));
         return parent::handle($request, $next, ...$guards);
     }
 }
