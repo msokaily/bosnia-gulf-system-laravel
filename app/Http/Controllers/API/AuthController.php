@@ -32,7 +32,6 @@ class AuthController extends Controller
                 'message' => 'Your account has been suspended by the admin!'
             ], false);
         }
-
         if (!$user || !Hash::check($request->password, $user->password)) {
             return $this->resJson([
                 'message' => 'Incorrect email or password!'

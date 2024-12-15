@@ -29,6 +29,34 @@ class OrdersController extends Controller
         $year = $request->input('year', Carbon::now()->year);
         $month = $request->input('month', Carbon::now()->month);
         $data->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
+
+        if ($request->input('accommodation_ids'))
+        {
+            $accommodation_ids = json_decode($request->accommodation_ids);
+            if (count($accommodation_ids) > 0) {
+                $data->whereHas('accommodations', function($q) use ($accommodation_ids) {
+                    $q->whereIn('item_id', $accommodation_ids);
+                });
+            }
+        }
+        if ($request->input('car_ids'))
+        {
+            $car_ids = json_decode($request->car_ids);
+            if (count($car_ids) > 0) {
+                $data->whereHas('cars', function($q) use ($car_ids) {
+                    $q->whereIn('item_id', $car_ids);
+                });
+            }
+        }
+        if ($request->input('driver_ids'))
+        {
+            $driver_ids = json_decode($request->driver_ids);
+            if (count($driver_ids) > 0) {
+                $data->whereHas('drivers', function($q) use ($driver_ids) {
+                    $q->whereIn('item_id', $driver_ids);
+                });
+            }
+        }
         
         return $this->resJson(Res::collection($data->get()));
     }
