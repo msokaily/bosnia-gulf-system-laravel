@@ -2295,7 +2295,7 @@
     <p class="c1 c7"><span class="c0"></span></p>
     <p class="c1 c7 c11"><span class="c0"></span></p>
     <p class="c1 c7 c11"><span class="c0"></span></p>
-    <p class="c1"><span class="c0">TOTAL PRICE = {{number_format(($order->total - $down_payment) ?? 0, 2)}} &euro; </span></p>
+    <p class="c1"><span class="c0">TOTAL PRICE = {{number_format(($order->total - $down_payment ?? 0) ?? 0, 2)}} &euro; </span></p>
     <p style="margin-block: 5px;"><span class="c0">DOWN PAYMENT = {{number_format($down_payment ?? 0, 2)}} &euro;</span></p>
     <p style="margin-block: 5px;" class="c6"><span class="c0">DEPOSIT = {{number_format($deposit ?? 0, 2)}} &euro; </span></p>
     <p class="c1"><span class="c12 c15">PAYMENT IN CASH = {{number_format($order->paid_eur ?? 0, 2)}} &euro; &nbsp;</span><span class="c12">&nbsp;</span></p>
