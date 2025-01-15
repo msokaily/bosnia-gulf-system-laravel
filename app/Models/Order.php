@@ -30,6 +30,7 @@ class Order extends Model
         'cost',
         'price',
         'total',
+        'total_special',
     ];
 
     /**

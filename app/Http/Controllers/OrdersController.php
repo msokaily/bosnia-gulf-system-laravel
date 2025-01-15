@@ -139,6 +139,7 @@ class OrdersController extends Controller
             'airline',
             'cost',
             'total',
+            'total_special',
             'status'
         ]);
 
@@ -149,6 +150,7 @@ class OrdersController extends Controller
             'leave_at',
             'arrive_time',
             'airline',
+            'total_special',
             'status'
         ])->first()->toArray();
         $newUpdates = Helper::arrayDiffValues($data, $itemBeforeUpdate);
@@ -169,7 +171,6 @@ class OrdersController extends Controller
             ]);
             Notifications::sendOrderNotif($item->id, 'new');
         }
-
 
         return $this->resJson([
             'message' => 'Updated successfully!'
