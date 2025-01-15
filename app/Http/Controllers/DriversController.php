@@ -24,7 +24,6 @@ class DriversController extends Controller
         }
 
         if ($request->input('from') && $request->input('to')) {
-            dd($request->all());
             $data->whereDoesntHave('active_reservations', function ($q) use ($request) {
                 $q->whereDate('start_at', '<=', $request->to)
                     ->whereDate('end_at', '>=', $request->from);
