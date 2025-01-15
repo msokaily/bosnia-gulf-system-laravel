@@ -27,6 +27,14 @@ class CarsController extends Controller
         if ($request->input('register_end')) {
             $data->whereDate('register_end', '<=', $request->register_end);
         }
+
+        if ($request->input('from') && $request->input('to')) {
+            $data->whereDoesntHave('active_reservations', function ($q) use ($request) {
+                $q->whereDate('start_at', '<=', $request->to)
+                    ->whereDate('end_at', '>=', $request->from);
+            });
+        }
+        
         return $this->resJson(Res::collection($data->get()));
     }
 

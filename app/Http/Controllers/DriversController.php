@@ -22,6 +22,14 @@ class DriversController extends Controller
                 ->orWhere('phone', 'LIKE', '%' . $request->search . '%');
             });
         }
+
+        if ($request->input('from') && $request->input('to')) {
+            $data->whereDoesntHave('active_reservations', function ($q) use ($request) {
+                $q->whereDate('start_at', '<=', $request->to)
+                    ->whereDate('end_at', '>=', $request->from);
+            });
+        }
+        
         return $this->resJson(Res::collection($data->get()));
     }
 
