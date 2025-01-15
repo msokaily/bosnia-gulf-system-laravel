@@ -30,7 +30,6 @@ class CarsController extends Controller
         }
 
         if ($request->input('from') && $request->input('to')) {
-            // return $this->resJson($request->all(), false);
             $data->whereDoesntHave('active_reservations', function ($q) use ($request) {
                 $q->whereDate('start_at', '<=', Carbon::parse($request->to))
                     ->whereDate('end_at', '>=', Carbon::parse($request->from));
