@@ -34,12 +34,12 @@ class AccommodationsController extends Controller
             });
         } else {
             if ($request->input('from')) {
-                $data->whereHas('active_reservations', function ($q) use ($request) {
+                $data->whereDoesntHave('active_reservations', function ($q) use ($request) {
                     $q->whereDate('start_at', '<=', $request->from);
                 });
             }
             if ($request->input('to')) {
-                $data->whereHas('active_reservations', function ($q) use ($request) {
+                $data->whereDoesntHave('active_reservations', function ($q) use ($request) {
                     $q->whereDate('start_at', '>=', $request->to);
                 });
             }
