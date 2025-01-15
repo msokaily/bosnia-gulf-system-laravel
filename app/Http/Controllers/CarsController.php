@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CarResource as Res;
 use App\Models\Car as TableName;
+use Carbon\Carbon;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -29,10 +30,10 @@ class CarsController extends Controller
         }
 
         if ($request->input('from') && $request->input('to')) {
-            return $this->resJson($request->all(), false);
+            // return $this->resJson($request->all(), false);
             $data->whereDoesntHave('active_reservations', function ($q) use ($request) {
-                $q->whereDate('start_at', '<=', $request->to)
-                    ->whereDate('end_at', '>=', $request->from);
+                $q->whereDate('start_at', '<=', Carbon::parse($request->to))
+                    ->whereDate('end_at', '>=', Carbon::parse($request->from));
             });
         }
         
