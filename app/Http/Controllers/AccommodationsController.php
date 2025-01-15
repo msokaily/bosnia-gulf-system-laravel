@@ -32,17 +32,6 @@ class AccommodationsController extends Controller
                 $q->whereDate('start_at', '<=', $request->to)
                     ->whereDate('end_at', '>=', $request->from);
             });
-        } else {
-            if ($request->input('from')) {
-                $data->whereDoesntHave('active_reservations', function ($q) use ($request) {
-                    $q->whereDate('start_at', '<=', $request->from);
-                });
-            }
-            if ($request->input('to')) {
-                $data->whereDoesntHave('active_reservations', function ($q) use ($request) {
-                    $q->whereDate('start_at', '>=', $request->to);
-                });
-            }
         }
         return $this->resJson(Res::collection($data->get()));
     }
