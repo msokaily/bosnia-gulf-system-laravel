@@ -27,6 +27,11 @@ class AccommodationsController extends Controller
                 $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('location', 'LIKE', '%' . $request->search . '%');
             });
         }
+        if ($request->input('from')) {
+            $data->whereHas('active_reservations', function ($q) use ($request) {
+                $q->whereDate('start_at', '<=', $request->from);
+            });
+        }
         return $this->resJson(Res::collection($data->get()));
     }
 
