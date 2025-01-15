@@ -32,6 +32,11 @@ class AccommodationsController extends Controller
                 $q->whereDate('start_at', '<=', $request->from);
             });
         }
+        if ($request->input('to')) {
+            $data->whereHas('active_reservations', function ($q) use ($request) {
+                $q->whereDate('end_at', '<=', $request->to);
+            });
+        }
         return $this->resJson(Res::collection($data->get()));
     }
 
