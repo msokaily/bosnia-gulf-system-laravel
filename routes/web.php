@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/print/{id}', [App\Http\Controllers\HomeController::class, 'print'])->name('print');
+Route::get('/privacy', [App\Http\Controllers\HomeController::class, 'privacy'])->name('privacy');
+
+// TEMP
+Route::post('/send-whatsapp-message', [App\Http\Controllers\API\ApiController::class, 'chatgpt_send_test'])->name('whatsapp.send');

@@ -31,6 +31,11 @@ class HomeController extends Controller
     {
         return view('home');
     }
+    
+    public function privacy()
+    {
+        return view('privacy');
+    }
 
     public function print($id)
     {

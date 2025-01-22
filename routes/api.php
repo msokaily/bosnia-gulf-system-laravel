@@ -38,8 +38,11 @@ Route::group(['namespace' => 'API'], function () {
 
     // WhatsApp Messeges
     Route::group(['middleware' => 'WhatsAppAuth'], function() {
+        Route::post('whatsapp_send_test', [ApiController::class, 'whatsapp_send_test']);
         Route::any('whatsapp_callback', [ApiController::class, 'whatsapp_callback']);
     });
+    Route::post('chatgpt_send_test', [ApiController::class, 'chatgpt_send_test']);
+    Route::post('search_accommodation', [ApiController::class, 'search_accommodation']);
 });
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('users', UsersController::class);

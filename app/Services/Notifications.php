@@ -67,7 +67,6 @@ class Notifications
 
         $response = curl_exec($ch);
 
-        curl_exec($ch);
         if (curl_errno($ch)) {
             $error_msg = curl_error($ch);
             Log::error('Send Notification', ['response' => $error_msg, 'tokens' => $tokens]);
