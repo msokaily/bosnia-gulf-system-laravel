@@ -42,10 +42,9 @@ class HomeController extends Controller
         $order = Order::findOrFail($id);
         $data['order'] = $order;
         if ($order->payments && count($order->payments) > 0) {
-            $data['down_payment'] = $order->payments()->where('type', 'payment')->orderBy('created_at', 'ASC')->first()->amount ?? 0;
-            $data['deposit'] = $order->payments()->where('type', 'deposit')->first()->amount ?? 0;
+            $data['down_payment'] = $order->payments()->where('type', 'payment')->orderBy('created_at', 'ASC')->sum('amount') ?? 0;
+            $data['deposit'] = $order->payments()->where('type', 'deposit')->sum('amount') ?? 0;
         }
-        dd($data['down_payment'], $order->total_special ?? $order->total);
         return view('print', $data);
     }
 
