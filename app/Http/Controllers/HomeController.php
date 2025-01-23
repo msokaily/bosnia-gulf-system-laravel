@@ -45,6 +45,7 @@ class HomeController extends Controller
             $data['down_payment'] = $order->payments()->where('type', 'payment')->orderBy('created_at', 'ASC')->first()->amount ?? 0;
             $data['deposit'] = $order->payments()->where('type', 'deposit')->first()->amount ?? 0;
         }
+        dd($data['down_payment'], $order->total_special ?? $order->total);
         return view('print', $data);
     }
 
