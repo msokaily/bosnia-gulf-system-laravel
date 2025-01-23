@@ -2307,8 +2307,8 @@
         <p class="c3"><span class="c9">WELCOME TO BOSNIA AND HERZEGOVINA</span></p>
     </div>
     <script>
-        window.onafterprint = window.close;
-        window.print();
+        // window.onafterprint = window.close;
+        // window.print();
     </script>
 </body>
 
