@@ -103,6 +103,8 @@ class Chatgpt
 
         $response = json_decode($response);
 
+        dd($response);
+
         $assistant_message = $response->choices[0]->message;
         // Log::alert('Chatgpt response', ['response' => $response]);
 
