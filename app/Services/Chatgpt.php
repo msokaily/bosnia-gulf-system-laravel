@@ -81,6 +81,8 @@ class Chatgpt
 
         $fields = json_encode($fields);
 
+        dd($fields);
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://api.openai.com/v1/chat/completions");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
