@@ -25,7 +25,7 @@ class WhatsApp
         $fields = json_encode($fields);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://graph.facebook.com/v20.0/$fromWhatsNumberId/messages");
+        curl_setopt($ch, CURLOPT_URL, "https://graph.facebook.com/v22.0/$fromWhatsNumberId/messages");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
             'Authorization: Bearer ' . env('WHATSAPP_API_TOKEN')
