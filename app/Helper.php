@@ -145,7 +145,6 @@ class Helper
                 ],
                 "create" => [],
                 "update" => [
-                    "orders",
                     "orders_paid",
                 ],
                 "delete" => []
