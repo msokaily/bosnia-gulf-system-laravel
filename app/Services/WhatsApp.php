@@ -25,7 +25,7 @@ class WhatsApp
         $fields = json_encode($fields);
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://graph.facebook.com/v22.0/$fromWhatsNumberId/messages");
+        curl_setopt($ch, CURLOPT_URL, "https://graph.facebook.com/v21.0/$fromWhatsNumberId/messages");
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
             'Authorization: Bearer ' . env('WHATSAPP_API_TOKEN')
@@ -40,7 +40,7 @@ class WhatsApp
 
         if (curl_errno($ch)) {
             $error_msg = curl_error($ch);
-            Log::error('WhatsApp Send Message', ['response' => $error_msg, 'to' => $toWhatsNumber, 'from' => $fromWhatsNumberId]);
+            Log::error('WhatsApp Send Message Error', ['response' => $error_msg, 'to' => $toWhatsNumber, 'from' => $fromWhatsNumberId]);
         }
         curl_close($ch);
 
