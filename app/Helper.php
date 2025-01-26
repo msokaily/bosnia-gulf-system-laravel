@@ -144,7 +144,9 @@ class Helper
                     "orders"
                 ],
                 "create" => [],
-                "update" => [],
+                "update" => [
+                    "orders_paid",
+                ],
                 "delete" => []
             ];
         } else if ($role == 'monitor') {
