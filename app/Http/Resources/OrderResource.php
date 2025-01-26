@@ -30,7 +30,7 @@ class OrderResource extends JsonResource
             'payments' => $this->payments,
             'arrive_at' => $this->arrive_at,
             'leave_at' => $this->leave_at,
-            'paid_at' => $this->paid_at,
+            'paid' => $this->paid,
             'arrive_time' => $this->arrive_time,
             'airline' => $this->airline,
             'logs' => $this->logs,

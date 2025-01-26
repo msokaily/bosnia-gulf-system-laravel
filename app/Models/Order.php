@@ -23,7 +23,7 @@ class Order extends Model
         'phone',
         'arrive_at',
         'leave_at',
-        'paid_at',
+        'paid',
         'arrive_time',
         'airline',
         'status',
