@@ -23,6 +23,7 @@ class Order extends Model
         'phone',
         'arrive_at',
         'leave_at',
+        'paid_at',
         'arrive_time',
         'airline',
         'status',
@@ -38,8 +39,7 @@ class Order extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-    ];
+    protected $casts = [];
 
     /**
      * The attributes that should be appended.

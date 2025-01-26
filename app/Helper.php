@@ -141,6 +141,7 @@ class Helper
                     "home",
                     "stats",
                     "reports",
+                    "orders"
                 ],
                 "create" => [],
                 "update" => [],
