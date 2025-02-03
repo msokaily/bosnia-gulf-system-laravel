@@ -75,7 +75,7 @@ class Helper
                     "admins",
                     "drivers",
                     "repairs",
-                    "calender",
+                    "calendar",
                 ],
                 "create" => [
                     "cars",
@@ -104,7 +104,7 @@ class Helper
                     "admins",
                     "drivers",
                     "repairs",
-                    "calender",
+                    "calendar",
                 ],
                 "delete" => [
                     "cars",
@@ -119,7 +119,7 @@ class Helper
                     "admins",
                     "drivers",
                     "repairs",
-                    "calender",
+                    "calendar",
                 ]
             ];
         } else if ($role == 'reserver') {
@@ -127,18 +127,18 @@ class Helper
                 "view" => [
                     "home",
                     "orders",
-                    "calender",
+                    "calendar",
                 ],
                 "create" => [
                     "orders",
                 ],
                 "update" => [
                     "orders",
-                    "calender",
+                    "calendar",
                 ],
                 "delete" => [
                     "orders",
-                    "calender",
+                    "calendar",
                 ]
             ];
         } else if ($role == 'accountant') {
@@ -168,7 +168,7 @@ class Helper
                     "stats",
                     "reports",
                     "drivers",
-                    "calender",
+                    "calendar",
                 ],
                 "create" => [],
                 "update" => [
