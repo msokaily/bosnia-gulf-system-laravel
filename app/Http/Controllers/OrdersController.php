@@ -28,7 +28,20 @@ class OrdersController extends Controller
         }
         $year = $request->input('year', Carbon::now()->year);
         $month = $request->input('month', Carbon::now()->month);
-        $data->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
+        $selectedDate = Carbon::parse("$year-$month-01");
+        if ($request->has('expand_months')) {
+            $data->where(function($q) use ($dateFieldName, $selectedDate) {
+                $q->where(function($q1) use ($dateFieldName, $selectedDate) {
+                    $q1->whereYear($dateFieldName, $selectedDate->year)->whereMonth($dateFieldName, $selectedDate->month);
+                })->orWhere(function($q2) use ($dateFieldName, $selectedDate) {
+                    $q2->whereYear($dateFieldName, $selectedDate->copy()->addMonth()->year)->whereMonth($dateFieldName, $selectedDate->copy()->addMonth()->month);
+                })->orWhere(function($q2) use ($dateFieldName, $selectedDate) {
+                    $q2->whereYear($dateFieldName, $selectedDate->copy()->subMonth()->year)->whereMonth($dateFieldName, $selectedDate->copy()->subMonth()->month);
+                });
+            });
+        } else {
+            $data->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
+        }
 
         if ($request->input('accommodation_ids'))
         {
