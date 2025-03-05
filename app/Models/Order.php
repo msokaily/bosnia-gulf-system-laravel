@@ -133,7 +133,7 @@ class Order extends Model
         }
 
         return ExtraServiceResource::collection(
-            ExtraService::whereIn('id', $extraServiceIds)->get()
+            ExtraService::whereIn('id', $extraServiceIds)->withTrashed()->get()
         );
     }
 

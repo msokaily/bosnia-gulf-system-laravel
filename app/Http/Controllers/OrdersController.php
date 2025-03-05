@@ -119,7 +119,7 @@ class OrdersController extends Controller
         ])->toArray();
 
         if (isset($data['extra_services'])) {
-            $data['extra_services'] = ExtraService::whereIn('id', json_decode($data['extra_services']))->pluck('name')->toArray();
+            $data['extra_services'] = ExtraService::whereIn('id', json_decode($data['extra_services']))->withTrashed()->pluck('name')->toArray();
         }
 
         ActivitiesLog::create([
@@ -183,7 +183,7 @@ class OrdersController extends Controller
         ])->first()->toArray();
         $newUpdates = Helper::arrayDiffValues($data, $itemBeforeUpdate);
         if (isset($newUpdates['extra_services'])) {
-            $newUpdates['extra_services'] = ExtraService::whereIn('id', json_decode($newUpdates['extra_services']))->pluck('name')->toArray();
+            $newUpdates['extra_services'] = ExtraService::whereIn('id', json_decode($newUpdates['extra_services']))->withTrashed()->pluck('name')->toArray();
         }
         
         $item->update($data);
