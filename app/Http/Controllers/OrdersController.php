@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\OrderResource as Res;
 use App\Models\ActivitiesLog;
+use App\Models\ExtraService;
 use App\Models\Order as TableName;
 use App\Models\User;
 use App\Services\Notifications;
@@ -70,6 +71,8 @@ class OrdersController extends Controller
                 });
             }
         }
+
+        $data->orderBy('arrive_at', 'asc')->orderBy('arrive_time', 'asc');
         
         return $this->resJson(Res::collection($data->get()));
     }
@@ -90,12 +93,13 @@ class OrdersController extends Controller
             'phone',
             'arrive_at',
             'leave_at',
-            'paid_at',
+            'paid',
             'arrive_time',
             'airline',
             'cost',
             'total',
-            'status'
+            'status',
+            'extra_services',
         ]);
 
         $data['user_id'] = $request->user()->id;
@@ -107,11 +111,16 @@ class OrdersController extends Controller
             'phone',
             'arrive_at',
             'leave_at',
-            'paid_at',
+            'paid',
             'arrive_time',
             'status',
             'airline',
+            'extra_services',
         ])->toArray();
+
+        if (isset($data['extra_services'])) {
+            $data['extra_services'] = ExtraService::whereIn('id', json_decode($data['extra_services']))->pluck('name')->toArray();
+        }
 
         ActivitiesLog::create([
             'user_id' => $request->user()->id,
@@ -156,7 +165,8 @@ class OrdersController extends Controller
             'cost',
             'total',
             'total_special',
-            'status'
+            'status',
+            'extra_services',
         ]);
 
         $itemBeforeUpdate = TableName::where('id', $id)->select([
@@ -168,9 +178,13 @@ class OrdersController extends Controller
             'arrive_time',
             'airline',
             'total_special',
-            'status'
+            'status',
+            'extra_services'
         ])->first()->toArray();
         $newUpdates = Helper::arrayDiffValues($data, $itemBeforeUpdate);
+        if (isset($newUpdates['extra_services'])) {
+            $newUpdates['extra_services'] = ExtraService::whereIn('id', json_decode($newUpdates['extra_services']))->pluck('name')->toArray();
+        }
         
         $item->update($data);
         

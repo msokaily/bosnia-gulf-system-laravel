@@ -61,8 +61,8 @@ class Accommodation extends Model
 
     public function active_reservations()
     {
-        return $this->hasMany(OrderProducts::class, 'item_id')->where('type', 'accommodation')->whereHas('order', function($q) {
-            $q->whereIn('status', [1]);
+        return $this->hasMany(OrderProducts::class, 'item_id', 'id')->where('type', 'accommodation')->whereHas('order', function($q) {
+            $q->whereIn('status', ['1', 1]);
         });
     }
 

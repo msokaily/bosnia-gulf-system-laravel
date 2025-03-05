@@ -76,6 +76,8 @@ class Helper
                     "drivers",
                     "repairs",
                     "calendar",
+                    "extra-services",
+                    "export_orders",
                 ],
                 "create" => [
                     "cars",
@@ -90,6 +92,7 @@ class Helper
                     "admins",
                     "drivers",
                     "repairs",
+                    "extra-services",
                 ],
                 "update" => [
                     "cars",
@@ -105,6 +108,7 @@ class Helper
                     "drivers",
                     "repairs",
                     "calendar",
+                    "extra-services",
                 ],
                 "delete" => [
                     "cars",
@@ -120,6 +124,7 @@ class Helper
                     "drivers",
                     "repairs",
                     "calendar",
+                    "extra-services",
                 ]
             ];
         } else if ($role == 'reserver') {
@@ -169,6 +174,8 @@ class Helper
                     "reports",
                     "drivers",
                     "calendar",
+                    "extra-services",
+                    "export_orders",
                 ],
                 "create" => [],
                 "update" => [

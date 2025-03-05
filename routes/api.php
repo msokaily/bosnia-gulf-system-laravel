@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\CarCompaniesController;
 use App\Http\Controllers\CarsController;
 use App\Http\Controllers\DriversController;
+use App\Http\Controllers\ExtraServicesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderProductsController;
 use App\Http\Controllers\OrdersController;
@@ -43,6 +44,11 @@ Route::group(['namespace' => 'API'], function () {
     Route::post('chatgpt_send_test', [ApiController::class, 'chatgpt_send_test']);
     Route::post('search_accommodation', [ApiController::class, 'search_accommodation']);
 });
+
+Route::group(['middleware' => 'sanctum.token'], function() {
+    Route::get('orders/export_excel', [App\Http\Controllers\HomeController::class, 'export_excel']);
+});
+
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('users', UsersController::class);
     Route::get('/profile', [UsersController::class, 'profile']);
@@ -50,6 +56,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('cars', CarsController::class);
     Route::resource('car-companies', CarCompaniesController::class);
     Route::resource('repairs', RepairsController::class);
+    Route::resource('extra-services', ExtraServicesController::class);
     Route::resource('partners', PartnersController::class);
     Route::resource('drivers', DriversController::class);
     Route::resource('accommodations', AccommodationsController::class);

@@ -34,6 +34,7 @@ class OrderResource extends JsonResource
             'arrive_time' => $this->arrive_time,
             'airline' => $this->airline,
             'logs' => $this->logs,
+            'extra_services' => $this->extra_services_list,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d h:i A') : null,
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d h:i A') : null,
         ];

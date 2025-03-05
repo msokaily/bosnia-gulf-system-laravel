@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Resources\ActivityLogsResource;
+use App\Http\Resources\ExtraServiceResource;
 use Helper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,6 +33,7 @@ class Order extends Model
         'price',
         'total',
         'total_special',
+        'extra_services',
     ];
 
     /**
@@ -67,7 +69,7 @@ class Order extends Model
 
     public function getPaidEurAttribute()
     {
-        return $this->hasMany(Payments::class)->where('currency', 'EUR')->sum('amount');
+        return $this->hasMany(Payments::class)->where('type', 'payment')->where('currency', 'EUR')->sum('amount');
     }
 
     public function accommodations()
@@ -114,6 +116,27 @@ class Order extends Model
         return $total - $cost;
     }
 
+    public function setExtraServicesAttribute($value)
+    {
+        $extraServiceIds = json_decode($value ?? '[]', true);
+        if (!is_array($extraServiceIds)) {
+            $extraServiceIds = [];
+        }
+        $this->attributes['extra_services'] = json_encode($extraServiceIds);
+    }
+
+    public function getExtraServicesListAttribute()
+    {
+        $extraServiceIds = json_decode($this->attributes['extra_services'] ?? '[]', true);
+        if (!is_array($extraServiceIds)) {
+            $extraServiceIds = [];
+        }
+
+        return ExtraServiceResource::collection(
+            ExtraService::whereIn('id', $extraServiceIds)->get()
+        );
+    }
+
     public function getStatusNameAttribute()
     {
         return Helper::$orderStatus[$this->status]['en'] ?? 'New';
@@ -128,5 +151,4 @@ class Order extends Model
     {
         return null;
     }
-
 }

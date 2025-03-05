@@ -203,4 +203,22 @@ class HomeController extends Controller
         
         return $this->resJson($data);
     }
+
+    public function export_excel(Request $request)
+    {
+        $abilities = Helper::permissions($request->user()->role);
+        
+        if (!in_array('export_orders', $abilities['view'])) abort('401');
+
+        $year = $request->input('year', Carbon::now()->year);
+        $month = $request->input('month', Carbon::now()->month);
+
+        // Orders
+        $dateFieldName = 'arrive_at';
+        $orders = Order::query()->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
+
+        $data['items'] = $orders->get();
+        
+        return $this->resJson($data);
+    }
 }
