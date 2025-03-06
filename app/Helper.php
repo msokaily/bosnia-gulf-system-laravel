@@ -194,12 +194,17 @@ class Helper
             return self::$orderStatus[0];
         }
     }
-    
+
     public static function arrayDiffValues($array1, $array2)
     {
         $result = array_diff($array1, $array2);
 
         return $result;
     }
+}
 
+function decorate_numbers($number, $digitsAfterDot = 2, $comma = ',')
+{
+    $formatted_number = number_format($number, $digitsAfterDot, '.', $comma);
+    return $formatted_number;
 }

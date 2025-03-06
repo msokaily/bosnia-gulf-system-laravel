@@ -151,4 +151,15 @@ class Order extends Model
     {
         return null;
     }
+
+    public function getDownPaymentAttribute()
+    {
+        return $this->payments()->where('type', 'payment')->orderBy('created_at', 'ASC')->sum('amount') ?? 0;
+            $data['deposit'] = $order->payments()->where('type', 'deposit')->sum('amount') ?? 0;
+    }
+
+    public function getDepositAttribute()
+    {
+        return $this->payments()->where('type', 'deposit')->sum('amount') ?? 0;
+    }
 }

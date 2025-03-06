@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportOrders;
 use App\Models\Order;
 use App\Models\OrderProducts;
 use App\Models\Payments;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HomeController extends Controller
 {
@@ -212,13 +214,16 @@ class HomeController extends Controller
 
         $year = $request->input('year', Carbon::now()->year);
         $month = $request->input('month', Carbon::now()->month);
+        $date = Carbon::now();
+        $date->setYear($year)->setMonth($month);
 
         // Orders
         $dateFieldName = 'arrive_at';
-        $orders = Order::query()->whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);
+        $orders = Order::whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month)->whereIn('status', ['1', '2']);
+        $file_name = strtolower('orders_report'.'_'.$year.'-'.$month.'_'.date('Y-m-d_H-i'));
+        // return view('exports.orders', ['items' => $orders->get(), 'date' => $date]);
 
-        $data['items'] = $orders->get();
-        
-        return $this->resJson($data);
+        return Excel::download(new ExportOrders($orders->get(), $date), $file_name.'.xls');
     }
+
 }
