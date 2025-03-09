@@ -49,8 +49,15 @@ class Chatgpt
         return "- Now I'm the customer service employee.
 - Today's date is $date.
 - Summerize all the order information and the calculation from this conversation and convert them into clear point.
+- The main points you must mention are:
+        1) Client Name
+        2) Arrive At: date formated (YYYY-mm-dd)
+        3) Leave At: date formated (YYYY-mm-dd)
+        4) Number of persons
+        5) Required services with the prices you offered
 - Use Arabic language.
 - I want the dates in this format YYYY-mm-dd.
+- Don't say anything else that the main points.
 - Don't say anything about confirmation by email.";
     }
     

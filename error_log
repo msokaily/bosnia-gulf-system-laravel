@@ -1,0 +1,33 @@
+[09-Mar-2025 01:38:57 UTC] PHP Warning:  require(/home/appshdci/public_html/vendor/composer/../symfony/polyfill-php72/bootstrap.php): Failed to open stream: No such file or directory in /home/appshdci/public_html/vendor/composer/autoload_real.php on line 41
+[09-Mar-2025 01:38:57 UTC] PHP Fatal error:  Uncaught Error: Failed opening required '/home/appshdci/public_html/vendor/composer/../symfony/polyfill-php72/bootstrap.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/appshdci/public_html/vendor/composer/autoload_real.php:41
+Stack trace:
+#0 /home/appshdci/public_html/vendor/composer/autoload_real.php(45): {closure}()
+#1 /home/appshdci/public_html/vendor/autoload.php(25): ComposerAutoloaderInitf7902f40ebb5b95f21f77669411d7a8a::getLoader()
+#2 /home/appshdci/public_html/public/index.php(34): require('/home/appshdci/...')
+#3 /home/appshdci/public_html/server.php(21): require_once('/home/appshdci/...')
+#4 {main}
+  thrown in /home/appshdci/public_html/vendor/composer/autoload_real.php on line 41
+[09-Mar-2025 01:59:03 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:03 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:03 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:03 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:03 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:04 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:04 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:04 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:04 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:05 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:09 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:09 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:14 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:14 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:15 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:15 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:15 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:15 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:15 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:16 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:26 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:35 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 01:59:35 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
+[09-Mar-2025 02:01:43 UTC] PHP Notice:  date_default_timezone_set(): Timezone ID 'Europe' is invalid in /home/appshdci/public_html/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadConfiguration.php on line 47
