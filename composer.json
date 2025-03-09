@@ -11,7 +11,6 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.4",
-        "luka-dev/playwright-php": "1.1.13.1",
         "maatwebsite/excel": "^3.1",
         "paquettg/php-html-parser": "^2.2"
     },

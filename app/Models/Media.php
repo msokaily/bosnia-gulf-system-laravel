@@ -7,8 +7,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-use Pawlox\VideoThumbnail\Facade\VideoThumbnail;
-
 class Media extends Model
 {
     // use SoftDeletes;
