@@ -37,10 +37,7 @@ class Media extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'updated_at' => 'datetime',
-        'created_at' => 'datetime',
-    ];
+    protected $casts = [];
 
     private static $videoExtensions = ['mp4','ogx','oga','ogv','ogg','webm','avi','3gp'];
 
