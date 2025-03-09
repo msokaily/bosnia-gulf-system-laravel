@@ -46,8 +46,8 @@ class Chatgpt
     private static function prompt_summerize() 
     { 
         $date = date('Y-m-d');
-        return "- Today's date is $date.
-- Now i'm the customer service employee.
+        return "- Now I'm the customer service employee.
+- Today's date is $date.
 - Summerize all the order information and the calculation from this conversation and convert them into clear point.
 - Use Arabic language.
 - I want the dates in this format YYYY-mm-dd.
