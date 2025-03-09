@@ -18,7 +18,7 @@ class UsersController extends Controller
         }
         if ($request->input('search')) {
             $data->where(function ($q) use ($request) {
-                $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('email', 'LIKE', '%' . $request->search . '%');
+                $q->where('name', 'LIKE', '%' . $request->search . '%')->orWhere('email', 'LIKE', '%' . $request->search . '%')->orWhere('phone', 'LIKE', '%' . $request->search . '%');
             });
         }
         return $this->resJson(UserResource::collection($data->get()));
@@ -29,6 +29,7 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users',
+            'phone' => 'sometimes',
             'password' => 'required',
             'role' => 'required',
         ]);
@@ -38,7 +39,7 @@ class UsersController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'email', 'password', 'role']);
+        $data = $request->only(['name', 'email', 'phone', 'password', 'role']);
 
         $newUser = TableName::create($data);
         $user = TableName::find($newUser->id);
@@ -52,6 +53,7 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|string',
             'email' => "sometimes|required|email|unique:users,email," . $user->id,
+            'phone' => 'sometimes',
             'password' => 'sometimes|string',
             'role' => 'sometimes|string',
             'status' => 'sometimes|in:1,2',
@@ -62,7 +64,7 @@ class UsersController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'email', 'password', 'role', 'status']);
+        $data = $request->only(['name', 'email', 'phone', 'password', 'role', 'status']);
 
         $push_token = $request->input('push_token', null);
         if ($push_token) {
