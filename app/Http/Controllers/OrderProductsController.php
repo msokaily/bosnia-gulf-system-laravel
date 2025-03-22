@@ -71,33 +71,39 @@ class OrderProductsController extends Controller
         $daysNum = $end_at->diffInDays($start_at);
         $data['total'] = $data['price'] * $daysNum;
 
-        $newRow = TableName::create($data);
+        $duplicate_times = $product->multiple == 2 ? $request->input('duplicate_times', 1) : 1;
 
-        Order::find($newRow->order_id)->calcTotals();
+        for($i = 0; $i < $duplicate_times; $i++) {
 
-        $item = TableName::find($newRow->id);
-        $data = [
-            'name' => $item->product->name,
-            'type' => $item->product->type ?? $item->type,
-            'price' => $item->price,
-            'start_at' => Carbon::parse($item->start_at)->format('Y-m-d'),
-            'end_at' => Carbon::parse($item->end_at)->format('Y-m-d'),
-            'note' => $item->note,
-        ];
-        if ($item->extra) {
-            $data['vehicle'] = $item->extraValue->name ?? null;
+            $newRow = TableName::create($data);
+            
+            Order::find($newRow->order_id)->calcTotals();
+    
+            $item = TableName::find($newRow->id);
+            $dataLog = [
+                'name' => $item->product->name,
+                'type' => $item->product->type ?? $item->type,
+                'price' => $item->price,
+                'start_at' => Carbon::parse($item->start_at)->format('Y-m-d'),
+                'end_at' => Carbon::parse($item->end_at)->format('Y-m-d'),
+                'note' => $item->note,
+            ];
+            if ($item->extra) {
+                $dataLog['vehicle'] = $item->extraValue->name ?? null;
+            }
+    
+            ActivitiesLog::create([
+                'user_id' => $request->user()->id,
+                'order_id' => $item->order_id,
+                'item_id' => $newRow->id,
+                'item_type' => TableName::class,
+                'data' => $dataLog,
+                'type' => 'Add '.($item->product->type ?? $item->type),
+            ]);
         }
+        
 
-        ActivitiesLog::create([
-            'user_id' => $request->user()->id,
-            'order_id' => $item->order_id,
-            'item_id' => $newRow->id,
-            'item_type' => TableName::class,
-            'data' => $data,
-            'type' => 'Add '.($item->product->type ?? $item->type),
-        ]);
-
-        Notifications::sendOrderNotif($item->order_id, 'update');
+        Notifications::sendOrderNotif($request->order_id, 'update');
 
         return $this->resJson(new Res($newRow));
     }

@@ -44,7 +44,7 @@ class HomeController extends Controller
         $order = Order::findOrFail($id);
         $data['order'] = $order;
         if ($order->payments && count($order->payments) > 0) {
-            $data['down_payment'] = $order->payments()->where('type', 'payment')->orderBy('created_at', 'ASC')->sum('amount') ?? 0;
+            $data['down_payment'] = $order->payments()->where('type', 'down_payment')->orderBy('created_at', 'ASC')->sum('amount') ?? 0;
             $data['deposit'] = $order->payments()->where('type', 'deposit')->sum('amount') ?? 0;
         }
         return view('print', $data);
@@ -219,8 +219,8 @@ class HomeController extends Controller
 
         // Orders
         $dateFieldName = 'arrive_at';
-        $orders = Order::whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month)->whereIn('status', ['1', '2']);
-        $file_name = strtolower('orders_report'.'_'.$year.'-'.$month.'_'.date('Y-m-d_H-i'));
+        $orders = Order::whereYear($dateFieldName, $year)->whereMonth($dateFieldName, $month);//->whereIn('status', ['1', '2']);
+        $file_name = strtolower('orders_report'.'_'.$year.'-'.$month.'_'.date('d-m-Y_H-i'));
         // return view('exports.orders', ['items' => $orders->get(), 'date' => $date]);
 
         return Excel::download(new ExportOrders($orders->get(), $date), $file_name.'.xls');

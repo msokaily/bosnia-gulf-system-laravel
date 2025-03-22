@@ -16,6 +16,7 @@ class Driver extends Model
         'phone',
         'cost',
         'price',
+        'multiple',
         'status',
     ];
 

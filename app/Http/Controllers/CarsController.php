@@ -62,7 +62,7 @@ class CarsController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'model', 'company', 'register_no', 'register_start', 'register_end', 'owner', 'owner_id', 'cost', 'price', 'image', 'status']);
+        $data = $request->only(['name', 'model', 'company', 'register_no', 'register_start', 'register_end', 'owner', 'owner_id', 'cost', 'price', 'image', 'multiple', 'status']);
         
         $newRow = TableName::create($data);
 
@@ -98,7 +98,7 @@ class CarsController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'model', 'company', 'register_no', 'register_start', 'register_end', 'owner', 'owner_id', 'cost', 'price', 'image', 'status']);
+        $data = $request->only(['name', 'model', 'company', 'register_no', 'register_start', 'register_end', 'owner', 'owner_id', 'cost', 'price', 'image', 'multiple', 'status']);
         
         $item->update($data);
 

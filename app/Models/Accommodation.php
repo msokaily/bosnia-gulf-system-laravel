@@ -25,6 +25,7 @@ class Accommodation extends Model
         'address',
         'location',
         'image',
+        'multiple',
         'status'
     ];
 

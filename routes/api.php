@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::resource('accommodations', AccommodationsController::class);
     Route::resource('orders', OrdersController::class);
     Route::resource('orderProducts', OrderProductsController::class);
+    Route::get('orders/{id}/restore', [OrdersController::class, 'restore']);
     Route::get('orders/{id}/products', [OrderProductsController::class, 'index']);
     Route::resource('payments', PaymentsController::class);
     Route::get('orders/{id}/payments', [PaymentsController::class, 'index']);

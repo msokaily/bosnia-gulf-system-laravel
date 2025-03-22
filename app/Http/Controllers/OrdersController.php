@@ -72,6 +72,10 @@ class OrdersController extends Controller
             }
         }
 
+        if ($request->input('trash')) {
+            $data->withTrashed()->whereNotNull('deleted_at');
+        }
+
         $data->orderBy('arrive_at', 'asc')->orderBy('arrive_time', 'asc');
         
         return $this->resJson(Res::collection($data->get()));
@@ -181,6 +185,8 @@ class OrdersController extends Controller
             'status',
             'extra_services'
         ])->first()->toArray();
+
+        $this->resJson([$data, $itemBeforeUpdate]);
         $newUpdates = Helper::arrayDiffValues($data, $itemBeforeUpdate);
         if (isset($newUpdates['extra_services'])) {
             $newUpdates['extra_services'] = ExtraService::whereIn('id', json_decode($newUpdates['extra_services']))->withTrashed()->pluck('name')->toArray();
@@ -208,9 +214,16 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $item = TableName::findOrFail($id);
+        ActivitiesLog::create([
+            'user_id' => $request->user()->id,
+            'order_id' => $item->id,
+            'item_id' => $item->id,
+            'item_type' => TableName::class,
+            'type' => 'Delete Reservation',
+        ]);
         $item->delete();
         return $this->resJson([
             'message' => 'Deleted successfully!'
@@ -220,5 +233,14 @@ class OrdersController extends Controller
     public function show($id)
     {
         return $this->resJson(new Res(TableName::find($id)));
+    }
+
+    public function restore($id)
+    {
+        $item = TableName::withTrashed()->findOrFail($id);
+        $item->restore();
+        return $this->resJson([
+            'message' => 'Restored successfully!'
+        ]);
     }
 }

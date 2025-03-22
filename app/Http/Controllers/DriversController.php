@@ -48,7 +48,7 @@ class DriversController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'phone', 'status', 'cost', 'price']);
+        $data = $request->only(['name', 'phone', 'multiple', 'status', 'cost', 'price']);
 
         $newRow = TableName::create($data);
 
@@ -76,7 +76,7 @@ class DriversController extends Controller
                 'errors' => Helper::errorsFormat($validator->errors()->toArray())
             ], false);
         }
-        $data = $request->only(['name', 'phone', 'status', 'cost', 'price']);
+        $data = $request->only(['name', 'phone', 'multiple', 'status', 'cost', 'price']);
 
         $item->update($data);
 

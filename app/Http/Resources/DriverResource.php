@@ -21,6 +21,7 @@ class DriverResource extends JsonResource
             'status' => $this->status,
             'cost' => $this->cost,
             'price' => $this->price,
+            'multiple' => $this->multiple,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d h:i A') : null,
         ];
     }

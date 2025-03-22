@@ -25,6 +25,7 @@ class AccommodationResource extends JsonResource
             'image' => $this->image,
             'cost' => $this->cost,
             'price' => $this->price,
+            'multiple' => $this->multiple,
             'active_reservations' => $this->active_reservations,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d h:i A') : null,
         ];

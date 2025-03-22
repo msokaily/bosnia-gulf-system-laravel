@@ -29,6 +29,7 @@ class Car extends Model
         'image',
         'cost',
         'price',
+        'multiple',
         'status'
     ];
 

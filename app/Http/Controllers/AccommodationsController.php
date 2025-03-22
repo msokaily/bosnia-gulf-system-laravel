@@ -64,6 +64,7 @@ class AccommodationsController extends Controller
             'address',
             'location',
             'image',
+            'multiple',
             'status'
         ]);
 
@@ -107,6 +108,7 @@ class AccommodationsController extends Controller
             'address',
             'location',
             'image',
+            'multiple',
             'status'
         ]);
 
